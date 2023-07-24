@@ -72,6 +72,8 @@ def tinyMazeSearch(problem):
     w = Directions.WEST
     return  [s, s, w, s, w, w, s, w]
 
+
+
 def depthFirstSearch(problem: SearchProblem):
     """
     Search the deepest nodes in the search tree first.
@@ -82,16 +84,68 @@ def depthFirstSearch(problem: SearchProblem):
     To get started, you might want to try some of these simple commands to
     understand the search problem that is being passed in:
     """
+
+    visited = []
+    frontierStack = util.Stack()
+    frontierStack.push((problem.getStartState(), [], 0))
+    goal_found = False
+    
+
+    while not goal_found:
+        node, moves, total_cost = frontierStack.pop()
+        
+        if problem.isGoalState(node):
+            goal_found = True
+            return moves
+        else:
+            visited.append(node)
+            for child, move, cost in problem.getSuccessors(node):
+                # visitedContainsChild = False
+
+                # for i in range(len(visited)):
+                #     if visited[i] == child:
+                #         visitedContainsChild = True
+
+                if child not in visited:
+                    frontierStack.push((child, moves + [move],cost))
+
+
     print("Start:", problem.getStartState())
     print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
     print("Start's successors:", problem.getSuccessors(problem.getStartState()))
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+
 
 def breadthFirstSearch(problem: SearchProblem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    visited = []
+    frontierQueue = util.Queue()
+    frontierQueue.push((problem.getStartState(), [], 0))
+    goal_found = False
+    
+
+    while not goal_found:
+        node, moves, total_cost = frontierQueue.pop()
+        
+        if problem.isGoalState(node):
+            goal_found = True
+            return moves
+        else:
+            visited.append(node)
+            for child, move, cost in problem.getSuccessors(node):
+                # visitedContainsChild = False
+
+                # for i in range(len(visited)):
+                #     if visited[i] == child:
+                #         visitedContainsChild = True
+
+                if child not in visited:
+                    frontierQueue.push((child, moves + [move],cost))
+
+    print("Start:", problem.getStartState())
+    print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
+    print("Start's successors:", problem.getSuccessors(problem.getStartState()))
 
 def uniformCostSearch(problem: SearchProblem):
     """Search the node of least total cost first."""
